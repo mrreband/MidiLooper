@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using MidiLooper;
+using Midi;
 
 using System;
 using System.Collections.Generic;
@@ -22,18 +23,29 @@ namespace WinLooper
 
         private bool isRunning = false;
         private Looper l = new Looper(2, 4);
-        private Clock c = Clock.GetClock();
         private List<ToggleBox> toggleBoxes;
 
         private void Form1_Load(object sender, EventArgs e)
         {
             this.DoubleBuffered = true;
-            c.ClockChanged += ClockChanged;
+            l.c.ClockChanged += ClockChanged;
             toggleBoxes = new List<ToggleBox>(); 
-            addToggleBoxes(l.MeasureCount, l.BeatCount);
+            AddToggleBoxes(l.MeasureCount, l.BeatCount);
+            AddMidiDevices();
         }
 
-        private void addToggleBoxes(float measureCount, float beatCount)
+        private void AddMidiDevices()
+        {
+            this.dropDownMidiDevices.Items.Clear();
+            var outputDevices = MidiIO.GetAvailableDevices();
+
+            foreach (var outputDevice in outputDevices)
+            {
+                this.dropDownMidiDevices.Items.Add(outputDevice.Name);
+            }
+        }
+
+        private void AddToggleBoxes(float measureCount, float beatCount)
         {                      
             var totalBeats = measureCount * beatCount;
 
@@ -53,7 +65,7 @@ namespace WinLooper
 
         private ToggleBox addToggleBox(int left, int top)
         {
-            var tb = new ToggleBox(left, top);
+            var tb = new ToggleBox(left, top, Pitch.C4);
             this.pnlToggleBoxArea.Controls.Add(tb);
             return tb;
         }
@@ -72,14 +84,14 @@ namespace WinLooper
 
         private void Start()
         {
-            c.Start();
+            l.c.Start();
             btnStartStop.Text = "Stop";
             isRunning = true;
         }
 
         private void Stop()
         {
-            c.Stop();
+            l.c.Stop();
             btnStartStop.Text = "Start";
             isRunning = false;
         }
@@ -110,10 +122,12 @@ namespace WinLooper
             }
             else
             {
-                var currentTime = Math.Round(Convert.ToDecimal(text), 2);
+                var currentTime = Convert.ToDecimal(text);
+
+                var currentTimeDisplayed = Math.Round(Convert.ToDecimal(text), 2);
                 var currentMeasure = Math.Floor(currentTime);
                 var currentBeat = Math.Floor((currentTime % 1) * 4);
-                this.lblCurrentTime.Text = currentTime.ToString();
+                this.lblCurrentTime.Text = currentTimeDisplayed.ToString();
                 this.lblCurrentMeasure.Text = currentMeasure.ToString();
                 this.lblCurrentBeat.Text = currentBeat.ToString();
 
@@ -130,6 +144,11 @@ namespace WinLooper
                     var previousBox = toggleBoxes[toggleBoxes.Count - 1];
                     previousBox.Deactivate();
                 }
+
+                if (activeBox.Checked)
+                {                    
+                    l.Schedule(Channel.Channel1, activeBox.pitch, 100, (float)currentTime, (float)noteLengthBox.Value);
+                }
             }
         }
 
@@ -137,13 +156,13 @@ namespace WinLooper
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            c.ClockChanged -= ClockChanged;
+            l.c.ClockChanged -= ClockChanged;
             Stop();
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            c.Reset();
+            l.c.Reset();
             this.lblCurrentTime.Text = "0";
             this.lblCurrentMeasure.Text = "0";
             this.lblCurrentBeat.Text = "0";
@@ -155,13 +174,20 @@ namespace WinLooper
         {
             var intbox = (NumericUpDown)sender;
             l.SetMeasureCount(Convert.ToInt32(intbox.Value));
-            addToggleBoxes(l.MeasureCount, l.BeatCount);
+            AddToggleBoxes(l.MeasureCount, l.BeatCount);
         }
 
         private void bpmBox_ValueChanged(object sender, EventArgs e)
         {
             var bpmBox = (NumericUpDown)sender;
-            c.SetBPM(Convert.ToInt32(bpmBox.Value));
+            l.c.SetBPM(Convert.ToInt32(bpmBox.Value));
+        }
+
+        private void dropDownMidiDevices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var dropDown = (ComboBox)sender;
+            var deviceName = dropDown.SelectedItem.ToString();
+            l.SetOutputDevice(deviceName);
         }
 
     }

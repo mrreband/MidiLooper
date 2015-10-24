@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using Midi;
+using Midi;
 using System.Threading;
 
 namespace MidiLooper
@@ -52,6 +52,14 @@ namespace MidiLooper
         public void SetBPM(int bpm)
         {
             clock.BeatsPerMinute = bpm;
+        }
+
+        public void Schedule(OutputDevice outputDevice, NoteOnMessage msg, float noteLength)
+        {
+            //outputDevice.SendNoteOn(msg.Channel, msg.Pitch, msg.Velocity);
+            //Thread.Sleep();
+            clock.Schedule(new NoteOnMessage(outputDevice, msg.Channel, msg.Pitch, msg.Velocity, msg.Time));
+            clock.Schedule(new NoteOffMessage(outputDevice, msg.Channel, msg.Pitch, msg.Velocity, msg.Time + noteLength));
         }
         #endregion
 

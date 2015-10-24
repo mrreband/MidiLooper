@@ -15,8 +15,8 @@ namespace LooperTest
             Clock c = Clock.GetClock();
             c.SetBPM(60);
 
-            Looper l = new Looper(2);
-            c.ClockChanged += l.CheckClock; 
+            Looper l = new Looper(2,4);
+            //c.ClockChanged += l.CheckClock; 
             
             Observer o = new Observer();
             c.ClockChanged += o.ClockChanged;

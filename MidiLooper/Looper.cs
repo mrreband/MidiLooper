@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Midi;
 
 namespace MidiLooper
 {
@@ -11,9 +12,10 @@ namespace MidiLooper
     {
         public float MeasureCount { get; private set; }
         public float BeatCount { get; private set; }
+        private OutputDevice OutputDevice;
 
         private int currentMeasure = 0;
-        private Clock c = Clock.GetClock();
+        public Clock c = Clock.GetClock();
 
         public Looper(int measureCount, int beatCount)
         {
@@ -32,6 +34,13 @@ namespace MidiLooper
             BeatCount = beatCount;
         }
 
+        public void SetOutputDevice(string deviceName)
+        {
+            if (OutputDevice != null) OutputDevice.Close();
+            OutputDevice = MidiIO.GetOutputDevice(deviceName);
+            OutputDevice.Open();
+        }
+
         private void CheckClock(Object sender, EventArgs e)
         {
             var clock = (Midi.Clock)sender;
@@ -42,6 +51,18 @@ namespace MidiLooper
             {
                 c.Reset();
             }            
+        }
+
+        public void Schedule(Channel channel, Pitch pitch, int velocity, float time, float noteLength)
+        {
+            if (OutputDevice == null) return;
+            var msg = new NoteOnMessage(OutputDevice, channel, pitch, velocity, time);
+            c.Schedule(OutputDevice, msg, noteLength);
+        }
+
+        public void UnSchedule()
+        {
+
         }
     }
 }

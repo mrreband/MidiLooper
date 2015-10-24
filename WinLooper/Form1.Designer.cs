@@ -41,13 +41,18 @@
             this.lblCurrentMeasure = new System.Windows.Forms.Label();
             this.lblCurrentBeat = new System.Windows.Forms.Label();
             this.pnlToggleBoxArea = new System.Windows.Forms.Panel();
+            this.dropDownMidiDevices = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.noteLengthBox = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.measureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpmBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.noteLengthBox)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(18, 19);
+            this.btnStartStop.Location = new System.Drawing.Point(268, 111);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(75, 23);
             this.btnStartStop.TabIndex = 0;
@@ -66,7 +71,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(127, 19);
+            this.btnReset.Location = new System.Drawing.Point(363, 111);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 2;
@@ -76,7 +81,7 @@
             // 
             // measureBox
             // 
-            this.measureBox.Location = new System.Drawing.Point(693, 22);
+            this.measureBox.Location = new System.Drawing.Point(689, 91);
             this.measureBox.Name = "measureBox";
             this.measureBox.Size = new System.Drawing.Size(51, 20);
             this.measureBox.TabIndex = 3;
@@ -90,7 +95,7 @@
             // lblMeasureCount
             // 
             this.lblMeasureCount.AutoSize = true;
-            this.lblMeasureCount.Location = new System.Drawing.Point(600, 24);
+            this.lblMeasureCount.Location = new System.Drawing.Point(596, 93);
             this.lblMeasureCount.Name = "lblMeasureCount";
             this.lblMeasureCount.Size = new System.Drawing.Size(79, 13);
             this.lblMeasureCount.TabIndex = 4;
@@ -99,7 +104,7 @@
             // lblBPM
             // 
             this.lblBPM.AutoSize = true;
-            this.lblBPM.Location = new System.Drawing.Point(336, 24);
+            this.lblBPM.Location = new System.Drawing.Point(596, 121);
             this.lblBPM.Name = "lblBPM";
             this.lblBPM.Size = new System.Drawing.Size(30, 13);
             this.lblBPM.TabIndex = 6;
@@ -107,7 +112,7 @@
             // 
             // bpmBox
             // 
-            this.bpmBox.Location = new System.Drawing.Point(429, 22);
+            this.bpmBox.Location = new System.Drawing.Point(689, 119);
             this.bpmBox.Maximum = new decimal(new int[] {
             500,
             0,
@@ -180,11 +185,70 @@
             this.pnlToggleBoxArea.Size = new System.Drawing.Size(739, 392);
             this.pnlToggleBoxArea.TabIndex = 13;
             // 
+            // dropDownMidiDevices
+            // 
+            this.dropDownMidiDevices.FormattingEnabled = true;
+            this.dropDownMidiDevices.Location = new System.Drawing.Point(363, 21);
+            this.dropDownMidiDevices.Name = "dropDownMidiDevices";
+            this.dropDownMidiDevices.Size = new System.Drawing.Size(182, 21);
+            this.dropDownMidiDevices.TabIndex = 14;
+            this.dropDownMidiDevices.SelectedIndexChanged += new System.EventHandler(this.dropDownMidiDevices_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(596, 66);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Note Length";
+            // 
+            // noteLengthBox
+            // 
+            this.noteLengthBox.DecimalPlaces = 2;
+            this.noteLengthBox.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.noteLengthBox.Location = new System.Drawing.Point(689, 64);
+            this.noteLengthBox.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.noteLengthBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.noteLengthBox.Name = "noteLengthBox";
+            this.noteLengthBox.Size = new System.Drawing.Size(51, 20);
+            this.noteLengthBox.TabIndex = 15;
+            this.noteLengthBox.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(265, 24);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(67, 13);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "MIDI Device";
+            // 
             // WinLooper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 573);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.noteLengthBox);
+            this.Controls.Add(this.dropDownMidiDevices);
             this.Controls.Add(this.pnlToggleBoxArea);
             this.Controls.Add(this.lblCurrentBeat);
             this.Controls.Add(this.lblCurrentMeasure);
@@ -204,6 +268,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.measureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpmBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.noteLengthBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,6 +289,10 @@
         private System.Windows.Forms.Label lblCurrentMeasure;
         private System.Windows.Forms.Label lblCurrentBeat;
         private System.Windows.Forms.Panel pnlToggleBoxArea;
+        private System.Windows.Forms.ComboBox dropDownMidiDevices;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown noteLengthBox;
+        private System.Windows.Forms.Label label5;
     }
 }
 

@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="Clock.cs" />
     <Compile Include="Looper.cs" />
+    <Compile Include="MidiDevice.cs" />
+    <Compile Include="MidiIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

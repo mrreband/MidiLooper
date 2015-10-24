@@ -5,23 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using Midi;
 
 namespace WinLooper
 {
     class ToggleBox : CheckBox
     {
         public bool IsActive { get; private set; }
+        public Pitch pitch;
 
         public ToggleBox()
         {
             newToggleBox();
         }
 
-        public ToggleBox(int left, int top)
+        public ToggleBox(int left, int top, Pitch pitch)
         {
             newToggleBox();
             this.Left = left;
             this.Top = top;
+            this.pitch = pitch;
         }
 
         private void newToggleBox() 
