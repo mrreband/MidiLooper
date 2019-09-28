@@ -46,7 +46,12 @@ namespace WinLooper
         }
 
         private void AddToggleBoxes(float measureCount, float beatCount)
-        {                      
+        {
+            AddToggleBoxRow(measureCount: measureCount, beatCount: beatCount, pitch: Pitch.C4);
+        }
+
+        private void AddToggleBoxRow(float measureCount, float beatCount, Pitch pitch)
+        {
             var totalBeats = measureCount * beatCount;
 
             //remove excess boxes
@@ -59,13 +64,13 @@ namespace WinLooper
             //add new boxes
             for (int i = toggleBoxes.Count; i < totalBeats; i++)
             {
-                toggleBoxes.Add(addToggleBox(50 + i * 30, 50));
+                toggleBoxes.Add(addToggleBox(50 + i * 30, 50, pitch));
             }
         }
 
-        private ToggleBox addToggleBox(int left, int top)
+        private ToggleBox addToggleBox(int left, int top, Pitch pitch)
         {
-            var tb = new ToggleBox(left, top, Pitch.C4);
+            var tb = new ToggleBox(left, top, pitch);
             this.pnlToggleBoxArea.Controls.Add(tb);
             return tb;
         }
