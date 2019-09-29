@@ -16,7 +16,7 @@ namespace WinLooper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WinLooper());
+            Application.Run(new MidiSequencer());
         }
     }
 }

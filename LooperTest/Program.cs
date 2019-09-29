@@ -14,7 +14,7 @@ namespace LooperTest
             Clock c = Clock.GetClock();
             c.SetBPM(60);
 
-            MidiUtility.MidiLooper l = new MidiUtility.MidiLooper(2,4);
+            MidiLooper l = new MidiLooper(2,4);
             //c.ClockChanged += l.CheckClock; 
             
             Observer o = new Observer();

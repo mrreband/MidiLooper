@@ -1,6 +1,6 @@
 ﻿namespace WinLooper
 {
-    partial class WinLooper
+    partial class MidiSequencer
     {
         /// <summary>
         /// Required designer variable.
@@ -240,7 +240,7 @@
             this.label5.TabIndex = 17;
             this.label5.Text = "MIDI Device";
             // 
-            // WinLooper
+            // MidiSequencer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -262,8 +262,8 @@
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lblCurrentTime);
             this.Controls.Add(this.btnStartStop);
-            this.Name = "WinLooper";
-            this.Text = "WinLooper";
+            this.Name = "MidiSequencer";
+            this.Text = "MidiSequencer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.measureBox)).EndInit();

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiUtility", "MidiLooper\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LooperTest", "LooperTest\LooperTest.csproj", "{2EBB43C1-4C59-44DE-8B8C-39C5C6D2464F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinLooper", "WinLooper\WinLooper.csproj", "{BDC10675-4597-4101-A84B-DE500C391780}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiSequencer", "WinLooper\MidiSequencer.csproj", "{BDC10675-4597-4101-A84B-DE500C391780}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

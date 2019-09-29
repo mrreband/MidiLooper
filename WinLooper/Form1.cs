@@ -9,16 +9,16 @@ using System.Windows.Forms;
 
 namespace WinLooper
 {
-    public partial class WinLooper : Form
+    public partial class MidiSequencer : Form
     {
-        public WinLooper()
+        public MidiSequencer()
         {
             InitializeComponent();
         }
 
         private bool IsRunning = false;
         private MidiLooper l = new MidiLooper(2, 4);
-        private List<ToggleBox> toggleBoxes;
+        private List<ToggleBoxRow> toggleBoxRows;
 
         /// <summary>
         /// Form load initialization
@@ -27,7 +27,7 @@ namespace WinLooper
         {
             this.DoubleBuffered = true;
             l.c.ClockChanged += ClockChanged;
-            toggleBoxes = new List<ToggleBox>(); 
+            toggleBoxRows = new List<ToggleBoxRow>(); 
             AddToggleBoxes(l.MeasureCount, l.BeatCount);
             AddMidiDevices();
         }
@@ -53,7 +53,10 @@ namespace WinLooper
         /// <param name="beatCount"></param>
         private void AddToggleBoxes(float measureCount, float beatCount)
         {
-            AddToggleBoxRow(measureCount: measureCount, beatCount: beatCount, pitch: Pitch.C4);
+            var boxCount = Convert.ToInt16(measureCount * beatCount);
+            AddToggleBoxRow(top: 0, boxCount: boxCount, pitch: Pitch.C3);
+            AddToggleBoxRow(top: 50, boxCount: boxCount, pitch: Pitch.C4);
+            AddToggleBoxRow(top: 100, boxCount: boxCount, pitch: Pitch.C5);
         }
 
         /// <summary>
@@ -62,36 +65,11 @@ namespace WinLooper
         /// <param name="measureCount"></param>
         /// <param name="beatCount"></param>
         /// <param name="pitch"></param>
-        private void AddToggleBoxRow(float measureCount, float beatCount, Pitch pitch)
+        private void AddToggleBoxRow(int top, int boxCount, Pitch pitch)
         {
-            var totalBeats = measureCount * beatCount;
-
-            //remove excess boxes
-            for (int i = toggleBoxes.Count - 1; i >= totalBeats; i--)
-            {
-                this.pnlToggleBoxArea.Controls.Remove(toggleBoxes[i]);
-                toggleBoxes.Remove(toggleBoxes[i]);
-            }
-
-            //add new boxes
-            for (int i = toggleBoxes.Count; i < totalBeats; i++)
-            {
-                toggleBoxes.Add(addToggleBox(50 + i * 30, 50, pitch));
-            }
-        }
-
-        /// <summary>
-        /// Add a ToggleBox to the grid
-        /// </summary>
-        /// <param name="left">Left Position in the grid</param>
-        /// <param name="top">Top Position in the grid</param>
-        /// <param name="pitch">Pitch of the note to play when active</param>
-        /// <returns>Newly created ToggleBox object</returns>
-        private ToggleBox addToggleBox(int left, int top, Pitch pitch)
-        {
-            var tb = new ToggleBox(left, top, pitch);
-            this.pnlToggleBoxArea.Controls.Add(tb);
-            return tb;
+            var toggleBoxRow = new ToggleBoxRow(left: 50, top: top, pitch: pitch, boxCount: boxCount);
+            this.toggleBoxRows.Add(toggleBoxRow);
+            this.pnlToggleBoxArea.Controls.Add(toggleBoxRow);
         }
 
         /// <summary>
@@ -171,22 +149,25 @@ namespace WinLooper
                 this.lblCurrentBeat.Text = currentBeat.ToString();
 
                 var currentPosition = Convert.ToInt16(currentMeasure * 4 + currentBeat);
-                var activeBox = toggleBoxes[currentPosition];
-                activeBox.Activate();
-                if (currentPosition >= 1)
+                foreach (var toggleBoxRow in this.toggleBoxRows)
                 {
-                    var previousBox = toggleBoxes[currentPosition - 1];
-                    previousBox.Deactivate();
-                }
-                else
-                {
-                    var previousBox = toggleBoxes[toggleBoxes.Count - 1];
-                    previousBox.Deactivate();
-                }
+                    var activeBox = toggleBoxRow.ToggleBoxes[currentPosition];
+                    activeBox.Activate();
+                    if (currentPosition >= 1)
+                    {
+                        var previousBox = toggleBoxRow.ToggleBoxes[currentPosition - 1];
+                        previousBox.Deactivate();
+                    }
+                    else
+                    {
+                        var previousBox = toggleBoxRow.ToggleBoxes[toggleBoxRows.Count - 1];
+                        previousBox.Deactivate();
+                    }
 
-                if (activeBox.Checked)
-                {                    
-                    l.Schedule(Channel.Channel1, activeBox.pitch, 100, (float)currentTime, (float)noteLengthBox.Value);
+                    if (activeBox.Checked)
+                    {
+                        l.Schedule(Channel.Channel1, activeBox.Pitch, 100, (float)currentTime, (float)noteLengthBox.Value);
+                    }
                 }
             }
         }
@@ -201,7 +182,7 @@ namespace WinLooper
             this.lblCurrentTime.Text = "0";
             this.lblCurrentMeasure.Text = "0";
             this.lblCurrentBeat.Text = "0";
-            var activeBox = (from ToggleBox t in toggleBoxes where t.IsActive == true select t).FirstOrDefault();
+            var activeBox = (from ToggleBox t in toggleBoxRows where t.IsActive == true select t).FirstOrDefault();
             if (activeBox != null) 
                 activeBox.Deactivate();
         }

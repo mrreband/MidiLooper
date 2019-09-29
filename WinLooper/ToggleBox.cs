@@ -12,7 +12,7 @@ namespace WinLooper
     class ToggleBox : CheckBox
     {
         public bool IsActive { get; private set; }
-        public Pitch pitch;
+        public Pitch Pitch;
 
         public ToggleBox()
         {
@@ -24,7 +24,7 @@ namespace WinLooper
             newToggleBox();
             this.Left = left;
             this.Top = top;
-            this.pitch = pitch;
+            this.Pitch = pitch;
         }
 
         private void newToggleBox() 
@@ -65,7 +65,5 @@ namespace WinLooper
             this.BackColor = (this.Checked) ? Color.Black : Color.White;
             this.IsActive = false;
         }
-
-    
     }
 }
