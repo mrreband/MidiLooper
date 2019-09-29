@@ -25,6 +25,9 @@ namespace WinLooper
         private Looper l = new Looper(2, 4);
         private List<ToggleBox> toggleBoxes;
 
+        /// <summary>
+        /// Form load initialization
+        /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
             this.DoubleBuffered = true;
@@ -34,6 +37,9 @@ namespace WinLooper
             AddMidiDevices();
         }
 
+        /// <summary>
+        /// Get a list of all available MIDI devices, and add them to the drop down list. 
+        /// </summary>
         private void AddMidiDevices()
         {
             this.dropDownMidiDevices.Items.Clear();
@@ -45,11 +51,22 @@ namespace WinLooper
             }
         }
 
+        /// <summary>
+        /// Add all ToggleBoxes
+        /// </summary>
+        /// <param name="measureCount"></param>
+        /// <param name="beatCount"></param>
         private void AddToggleBoxes(float measureCount, float beatCount)
         {
             AddToggleBoxRow(measureCount: measureCount, beatCount: beatCount, pitch: Pitch.C4);
         }
 
+        /// <summary>
+        /// Add a row of ToggleBoxes
+        /// </summary>
+        /// <param name="measureCount"></param>
+        /// <param name="beatCount"></param>
+        /// <param name="pitch"></param>
         private void AddToggleBoxRow(float measureCount, float beatCount, Pitch pitch)
         {
             var totalBeats = measureCount * beatCount;
@@ -68,6 +85,13 @@ namespace WinLooper
             }
         }
 
+        /// <summary>
+        /// Add a ToggleBox to the grid
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="pitch"></param>
+        /// <returns></returns>
         private ToggleBox addToggleBox(int left, int top, Pitch pitch)
         {
             var tb = new ToggleBox(left, top, pitch);
@@ -75,18 +99,20 @@ namespace WinLooper
             return tb;
         }
 
+        /// <summary>
+        /// Toggle start / stop state
+        /// </summary>
         private void btnStartStop_Click(object sender, EventArgs e)
         {
             if (isRunning)
-            {
                 Stop();
-            }
-            else 
-            { 
-                Start(); 
-            }
+            else
+                Start();
         }
 
+        /// <summary>
+        /// Start the sequencer.
+        /// </summary>
         private void Start()
         {
             l.c.Start();
@@ -94,6 +120,9 @@ namespace WinLooper
             isRunning = true;
         }
 
+        /// <summary>
+        /// Stop the sequencer.
+        /// </summary>
         private void Stop()
         {
             l.c.Stop();
@@ -101,6 +130,9 @@ namespace WinLooper
             isRunning = false;
         }
 
+        /// <summary>
+        /// Event handler for updating the UI as the clock progresses. 
+        /// </summary>
         private void ClockChanged(Object sender, EventArgs e)
         {
             if (isRunning)
@@ -110,6 +142,13 @@ namespace WinLooper
             }
         }
 
+        /// <summary>
+        /// Update the UI as the clock progresses.  
+        /// 
+        /// Change the color of boxes if they occur at the current clock time. 
+        /// If the current clock time coincides with the checkbox time, schedule a midi event.
+        /// </summary>
+        /// <param name="text"></param>
         delegate void SetTextCallback(string text);
         private void UpdateUI(string text)
         {
@@ -157,37 +196,45 @@ namespace WinLooper
             }
         }
 
-
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            l.c.ClockChanged -= ClockChanged;
-            Stop();
-        }
-
+        /// <summary>
+        /// Reset Button event handler - initialize all inputs. 
+        /// </summary>
         private void btnReset_Click(object sender, EventArgs e)
         {
+            Stop();
             l.c.Reset();
             this.lblCurrentTime.Text = "0";
             this.lblCurrentMeasure.Text = "0";
             this.lblCurrentBeat.Text = "0";
             var activeBox = (from ToggleBox t in toggleBoxes where t.IsActive == true select t).FirstOrDefault();
-            activeBox.Deactivate();
+            if (activeBox != null) 
+                activeBox.Deactivate();
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Measure Box change handler - redraw the correct number of toggle boxes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void measureBox_ValueChanged(object sender, EventArgs e)
         {
             var intbox = (NumericUpDown)sender;
             l.SetMeasureCount(Convert.ToInt32(intbox.Value));
             AddToggleBoxes(l.MeasureCount, l.BeatCount);
         }
 
+        /// <summary>
+        /// Clock BPM change handler - change the clock to the newly selected BPM
+        /// </summary>
         private void bpmBox_ValueChanged(object sender, EventArgs e)
         {
             var bpmBox = (NumericUpDown)sender;
             l.c.SetBPM(Convert.ToInt32(bpmBox.Value));
         }
 
+        /// <summary>
+        /// Midi Device change handler - set the newly selected output device. 
+        /// </summary>
         private void dropDownMidiDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             var dropDown = (ComboBox)sender;
@@ -195,5 +242,13 @@ namespace WinLooper
             l.SetOutputDevice(deviceName);
         }
 
+        /// <summary>
+        /// Cleanup - stop the clock before closing
+        /// </summary>
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            l.c.ClockChanged -= ClockChanged;
+            Stop();
+        }
     }
 }

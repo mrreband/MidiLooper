@@ -90,7 +90,7 @@
             0,
             0,
             0});
-            this.measureBox.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.measureBox.ValueChanged += new System.EventHandler(this.measureBox_ValueChanged);
             // 
             // lblMeasureCount
             // 
