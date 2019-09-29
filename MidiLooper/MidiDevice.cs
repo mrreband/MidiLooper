@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Midi;
 
-namespace MidiLooper
+namespace MidiUtility
 {
     class MidiDevice
     {

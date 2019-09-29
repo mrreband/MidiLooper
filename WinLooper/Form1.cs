@@ -1,15 +1,10 @@
-﻿using System.Threading;
-using MidiLooper;
+﻿using MidiUtility;
 using Midi;
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinLooper
@@ -21,8 +16,8 @@ namespace WinLooper
             InitializeComponent();
         }
 
-        private bool isRunning = false;
-        private Looper l = new Looper(2, 4);
+        private bool IsRunning = false;
+        private MidiLooper l = new MidiLooper(2, 4);
         private List<ToggleBox> toggleBoxes;
 
         /// <summary>
@@ -88,10 +83,10 @@ namespace WinLooper
         /// <summary>
         /// Add a ToggleBox to the grid
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="top"></param>
-        /// <param name="pitch"></param>
-        /// <returns></returns>
+        /// <param name="left">Left Position in the grid</param>
+        /// <param name="top">Top Position in the grid</param>
+        /// <param name="pitch">Pitch of the note to play when active</param>
+        /// <returns>Newly created ToggleBox object</returns>
         private ToggleBox addToggleBox(int left, int top, Pitch pitch)
         {
             var tb = new ToggleBox(left, top, pitch);
@@ -104,7 +99,7 @@ namespace WinLooper
         /// </summary>
         private void btnStartStop_Click(object sender, EventArgs e)
         {
-            if (isRunning)
+            if (IsRunning)
                 Stop();
             else
                 Start();
@@ -117,7 +112,7 @@ namespace WinLooper
         {
             l.c.Start();
             btnStartStop.Text = "Stop";
-            isRunning = true;
+            IsRunning = true;
         }
 
         /// <summary>
@@ -127,7 +122,7 @@ namespace WinLooper
         {
             l.c.Stop();
             btnStartStop.Text = "Start";
-            isRunning = false;
+            IsRunning = false;
         }
 
         /// <summary>
@@ -135,7 +130,7 @@ namespace WinLooper
         /// </summary>
         private void ClockChanged(Object sender, EventArgs e)
         {
-            if (isRunning)
+            if (IsRunning)
             {
                 var clock = (Midi.Clock)sender;
                 UpdateUI(clock.Time.ToString());
@@ -155,7 +150,7 @@ namespace WinLooper
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
-            if (this.lblCurrentTime.InvokeRequired && isRunning)
+            if (this.lblCurrentTime.InvokeRequired && IsRunning)
             {
                 try
                 {

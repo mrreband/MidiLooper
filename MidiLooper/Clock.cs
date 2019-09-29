@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Midi;
 using System.Threading;
 
-namespace MidiLooper
+namespace MidiUtility
 {
     public class Clock
     {

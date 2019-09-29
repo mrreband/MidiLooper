@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Midi;
 
-namespace MidiLooper
+namespace MidiUtility
 {
-    public class Looper
+    /// <summary>
+    /// MidiUtility utility object.  
+    /// 
+    /// Contains a reference to the Clock singleton, and a set number of measures and beats.
+    /// Contains a mechanism for adding midi events to the clock scheduler. 
+    /// </summary>
+    public class MidiLooper
     {
         public float MeasureCount { get; private set; }
         public float BeatCount { get; private set; }
@@ -17,7 +18,7 @@ namespace MidiLooper
         private int currentMeasure = 0;
         public Clock c = Clock.GetClock();
 
-        public Looper(int measureCount, int beatCount)
+        public MidiLooper(int measureCount, int beatCount)
         {
             SetMeasureCount(measureCount);
             SetBeatCount(beatCount);

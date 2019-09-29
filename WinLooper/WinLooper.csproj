@@ -88,9 +88,9 @@
     <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MidiLooper\MidiLooper.csproj">
+    <ProjectReference Include="..\MidiLooper\MidiUtility.csproj">
       <Project>{9d4c43cd-db4c-4edb-96cc-a671c2595552}</Project>
-      <Name>MidiLooper</Name>
+      <Name>MidiUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

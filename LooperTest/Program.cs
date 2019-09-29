@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using MidiLooper;
+using MidiUtility;
 
 namespace LooperTest
 {
@@ -15,7 +14,7 @@ namespace LooperTest
             Clock c = Clock.GetClock();
             c.SetBPM(60);
 
-            Looper l = new Looper(2,4);
+            MidiUtility.MidiLooper l = new MidiUtility.MidiLooper(2,4);
             //c.ClockChanged += l.CheckClock; 
             
             Observer o = new Observer();
