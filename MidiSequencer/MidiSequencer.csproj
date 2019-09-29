@@ -7,8 +7,8 @@
     <ProjectGuid>{BDC10675-4597-4101-A84B-DE500C391780}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WinLooper</RootNamespace>
-    <AssemblyName>WinLooper</AssemblyName>
+    <RootNamespace>MidiSequencer</RootNamespace>
+    <AssemblyName>MidiSequencer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -72,6 +72,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

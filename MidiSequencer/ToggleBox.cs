@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using Midi;
 
-namespace WinLooper
+namespace MidiSequencer
 {
     class ToggleBox : CheckBox
     {

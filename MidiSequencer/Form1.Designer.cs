@@ -1,4 +1,4 @@
-﻿namespace WinLooper
+﻿namespace MidiSequencer
 {
     partial class MidiSequencer
     {

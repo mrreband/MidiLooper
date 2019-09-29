@@ -7,7 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace WinLooper
+namespace MidiSequencer
 {
     public partial class MidiSequencer : Form
     {

@@ -6,8 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WinLooper
+namespace MidiSequencer
 {
+    /// <summary>
+    /// Represents a Pitch-specific row of ToggleBoxes
+    /// </summary>
     class ToggleBoxRow : Panel
     {
         public Pitch Pitch;
@@ -30,7 +33,7 @@ namespace WinLooper
             for (int i = 0; i < this.BoxCount; i++)
             {
                 var tb = new ToggleBox((50 * i) + 25, 0, pitch);
-                this.ToggleBoxes.Add(tb);
+                this.ToggleBoxes.Add(tb);   
                 this.Controls.Add(tb);
             }
         }
