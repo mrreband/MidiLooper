@@ -182,9 +182,18 @@ namespace MidiSequencer
             this.lblCurrentTime.Text = "0";
             this.lblCurrentMeasure.Text = "0";
             this.lblCurrentBeat.Text = "0";
-            var activeBox = (from ToggleBox t in toggleBoxRows where t.IsActive == true select t).FirstOrDefault();
-            if (activeBox != null) 
-                activeBox.Deactivate();
+            foreach (var toggleBoxRow in toggleBoxRows)
+            {
+                if (toggleBoxRow != null)
+                {
+                    foreach (var activeBox in toggleBoxRow.ToggleBoxes)
+                    {
+                        if (activeBox.IsActive)
+                            activeBox.Checked = false;
+                            activeBox.Deactivate();
+                    }
+                }
+            }
         }
 
         /// <summary>
